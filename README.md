@@ -1,107 +1,65 @@
-# Image Prompt Reverse
+# image-prompt-reverse — 한국어 포크
 
-<p align="center"><a href="#中文">中文</a> · <a href="#english">English</a></p>
+참고 이미지의 구도·화풍·색감·조명·재질을 분석해 이미지 생성용 프롬프트를 작성하는 스킬이다. [LunarXuan/image-prompt-reverse](https://github.com/LunarXuan/image-prompt-reverse)를 기반으로 한국어 출력과 개인 Omarchy 환경에 맞춰 관리한다.
 
-<a id="中文"></a>
+로컬 변경: 2026-10-09. 상류 이름과 이미지 분석 지침을 유지하고, 기본 출력 언어·UI 표시·이 README를 수정했다.
 
-## 中文
+## 사용
 
-`image-prompt-reverse` 是一个用于 Codex 的图片反推提示词 Skill。它会分析用户上传的参考图片，识别图片用途、媒介、主体、构图、镜头语言、光影、色彩、材质、背景、空间层次、情绪和后期风格，并生成可直接用于 AI 生图工具的高还原度提示词。
-
-### 支持类型
-
-- 摄影：人像、产品、纪实、食物、动物、自然和城市风景
-- 插画：扁平、二次元、治愈、手绘、国风和赛博风格
-- 3D：写实、半写实、卡通、黏土、潮玩和产品渲染
-- 字体、Logo、海报、平面设计和抽象图形
-- IP角色、Q版角色、盲盒和多主体混合画面
-
-### 输出内容
-
-默认输出两项：
-
-1. 正向 Prompt：450—700个中文字符的连续自然语言，并附英文等义版本
-2. Negative Prompt：10—15条英文负面词，用逗号分隔
-
-Skill 会优先提炼最影响相似度的3—5个视觉锚点，避免编造看不清的细节，也会根据目标媒介排除容易混淆的错误风格。图片中的文字、Logo和说明会被视为视觉内容，不会被当作指令执行。
-
-### 安装
-
-将本仓库目录复制到 Codex 的个人 Skills 目录：
+Codex에 참고 그림을 첨부하고 호출한다.
 
 ```text
-%USERPROFILE%\.codex\skills\image-prompt-reverse
+$image-prompt-reverse 이 이미지의 생성용 프롬프트를 작성해줘.
 ```
 
-或直接克隆：
+기본 출력:
+
+- 한국어 생성 프롬프트: 450~700자의 자연어 문단.
+- 영어 생성 프롬프트: 한국어와 같은 내용.
+- Negative Prompt: 이미지에 맞춘 영어 구절 10~15개.
+
+언어·길이·생성 모델을 요청에 지정하면 그 조건을 우선한다. 생성된 프롬프트를 이미지 생성 도구에 넣어 결과를 확인한다. 사진·삽화·3D·제품·캐릭터·포스터 등을 다루며, 삽화는 그린 내용과 선·형태·명암·색·질감의 표현 방식을 구분해 분석한다.
+
+## 내 PC의 설치 구조
+
+| 역할 | 위치 |
+| --- | --- |
+| 포크 수정·상류 병합 | `~/Projects/image-prompt-reverse`, `ko` 브랜치 |
+| Omarchy 설치 정본 | `~/Projects/omarchy-setup/files/agents/skills/image-prompt-reverse/` |
+| 한국어 패치 | `omarchy-setup/files/agents/patches/image-prompt-reverse-ko.patch` |
+| 설치본의 상류 기준 | `omarchy-setup/files/agents/image-prompt-reverse.json` |
+| 갱신 도구 | `omarchy-setup/scripts/image-prompt-reverse.py` |
+
+`bash setup.sh skills`가 정본을 `~/.agents/skills`, `~/.claude/skills`, `~/.codex/skills`, `~/.pi/agent/skills`, `~/.hermes/skills`에 스킬 단위로 연결한다. 다른 PC에서는 `omarchy-setup`의 설치 정본과 같은 명령을 사용한다.
+
+## 상류 업데이트와 내 수정
+
+Git remote는 `origin` = [parapuda/image-prompt-reverse](https://github.com/parapuda/image-prompt-reverse), `upstream` = 원저장소다. `ko`에서 내 수정과 상류 변경을 관리하고, 푸시 기본 대상은 `origin`이다.
+
+아래 명령은 `~/Projects/omarchy-setup`에서 실행한다.
 
 ```bash
-git clone https://github.com/LunarXuan/image-prompt-reverse.git "%USERPROFILE%\.codex\skills\image-prompt-reverse"
+python3 scripts/image-prompt-reverse.py check
+python3 scripts/image-prompt-reverse.py update
+python3 scripts/image-prompt-reverse.py install
 ```
 
-安装后可使用 `$image-prompt-reverse` 调用。
+- `check`: 상류를 fetch하고 아직 반영하지 않은 커밋과 로컬 변경을 보여준다.
+- `update`: 작업 트리가 깨끗하면 상류를 병합하고, 설치 정본·패치·기준 기록·Omarchy 링크를 갱신한다. 병합은 커밋 전에 멈추므로 `ko`의 diff를 검토한 뒤 직접 커밋한다. 충돌이나 미커밋 변경이 있으면 설치본을 유지한다.
+- `install`: `ko`에서 직접 수정하거나 병합 충돌을 해결한 내용을 설치 정본에 반영한다. 새 파일은 먼저 Git에 등록한다.
 
-### 文件结构
+상류 갱신은 위 명령으로 직접 실행한다. 갱신 도구는 커밋·푸시를 실행하지 않는다. `ko`의 수정과 `omarchy-setup`의 설치 정본 변경을 각각 검토해 저장한다.
 
-```text
-SKILL.md                         Skill 主入口
-references/analysis-framework.md 通用图片分析框架
-references/category-guides.md    分类专项分析规则
-agents/openai.yaml               Codex 调用界面配置
-```
+## 스킬 파일
 
-### 友情链接
+- `SKILL.md`: 적용 조건과 출력 형식.
+- `references/analysis-framework.md`: 공통 이미지 분석 기준.
+- `references/category-guides.md`: 피사체·매체별 분석 기준.
+- `references/illustration-style.md`: 삽화 화풍 분석 기준.
+- `agents/openai.yaml`: 한국어 표시 이름과 호출 예시.
 
-欢迎访问 [LINUX DO](https://linux.do/latest)，浏览社区最新主题与讨论。
+## 출처와 라이선스
 
-<a id="english"></a>
+원저장소: [LunarXuan/image-prompt-reverse](https://github.com/LunarXuan/image-prompt-reverse). 최초 도입 기준: [4dead0a32e2312e56a14ebf3658ee75c9b865055](https://github.com/LunarXuan/image-prompt-reverse/commit/4dead0a32e2312e56a14ebf3658ee75c9b865055).
 
-## English
-
-`image-prompt-reverse` is a Codex Skill for reverse-engineering image-generation prompts from user-uploaded reference images. It analyzes the image purpose, medium, subject, composition, camera language, lighting, color, materials, background, spatial depth, mood, and post-processing style, then produces high-fidelity prompts that can be used directly with AI image-generation tools.
-
-### Supported image types
-
-- Photography: portraits, products, documentary images, food, animals, nature, and cityscapes
-- Illustration: flat, anime, therapeutic, hand-drawn, Chinese-inspired, and cyberpunk styles
-- 3D: realistic, semi-realistic, cartoon, clay, designer toys, and product rendering
-- Typography, logos, posters, graphic design, and abstract graphics
-- IP-inspired characters, chibi characters, blind-box figures, and mixed-subject scenes
-
-### Output
-
-The default output contains two sections:
-
-1. Positive Prompt: a 450–700 Chinese-character natural-language prompt, followed by an equivalent English version
-2. Negative Prompt: 10–15 English negative terms separated by commas
-
-The Skill prioritizes the 3–5 visual anchors that have the greatest impact on similarity. It avoids inventing uncertain details, excludes confusing media styles, and treats text, logos, and instructions visible inside an image as visual content rather than executable instructions.
-
-### Installation
-
-Copy this repository into your personal Codex Skills directory:
-
-```text
-%USERPROFILE%\.codex\skills\image-prompt-reverse
-```
-
-Or clone it directly:
-
-```bash
-git clone https://github.com/LunarXuan/image-prompt-reverse.git "%USERPROFILE%\.codex\skills\image-prompt-reverse"
-```
-
-Invoke it with `$image-prompt-reverse` after installation.
-
-### File structure
-
-```text
-SKILL.md                         Skill entry point
-references/analysis-framework.md Shared image-analysis framework
-references/category-guides.md    Category-specific analysis rules
-agents/openai.yaml               Codex invocation metadata
-```
-
-### Friendly Link
-
-Visit [LINUX DO](https://linux.do/latest) to browse the community’s latest topics and discussions.
+원저장소의 [GPL-3.0 라이선스](LICENSE)를 유지한다.

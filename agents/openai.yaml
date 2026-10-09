@@ -1,4 +1,5 @@
+# Local modification: 2026-10-09, Korean interface and Korean/English output.
 interface:
-  display_name: "图片反推提示词"
-  short_description: "从参考图片反推可直接使用的高还原度中英双语生图提示词"
-  default_prompt: "Use $image-prompt-reverse to analyze my uploaded image and produce a high-fidelity positive prompt and negative prompt."
+  display_name: "이미지 프롬프트 추출"
+  short_description: "참고 이미지의 구도와 화풍을 분석해 한국어·영어 생성 프롬프트 작성"
+  default_prompt: "$image-prompt-reverse 첨부한 이미지를 분석해 한국어·영어 생성 프롬프트와 영어 Negative Prompt를 작성해줘."

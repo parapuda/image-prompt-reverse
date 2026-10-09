@@ -3,6 +3,8 @@ name: image-prompt-reverse
 description: Analyze user-provided reference images and reverse-engineer high-fidelity AI image-generation prompts. Use when the user asks to recreate, imitate, reverse-engineer, or extract prompts from photographs, illustrations, 3D renders, products, characters, landscapes, typography, logos, posters, or other visual references. Do not use for requests that only require OCR or an ordinary image description.
 ---
 
+<!-- Local modification: 2026-10-09, Korean/English default output. -->
+
 # Image Prompt Reverse Engineering
 
 根据用户上传的目标图片，生成可直接用于 AI 生图工具的高还原度提示词。目标不是简单罗列画面内容，而是还原最影响相似度的视觉机制，包括主体、构图、镜头、光影、色彩、材质、背景、空间层次、情绪、媒介和后期特征。
@@ -53,18 +55,18 @@ description: Analyze user-provided reference images and reverse-engineer high-fi
 - 用户明确要求保留文字区域而非文字内容时，描述为“预留文字区域”。
 - 用户明确要求复现其自行提供的文字时，可以保留文字内容，但仍应提示生图模型可能无法稳定生成准确文字。
 
-## 默认输出格式
+## 기본 출력 형식
 
-最终只输出以下两大项，不附加分析、解释、建议或总结。
+사용자가 언어·형식·길이를 지정하면 그 요청을 우선한다. 그렇지 않으면 아래 두 항목만 한국어·영어로 출력하며 분석, 설명, 제안, 요약을 덧붙이지 않는다.
 
-### 1. 正向 Prompt
+### 1. 생성 프롬프트 (Positive Prompt)
 
-在同一项目下依次输出：
+같은 항목 안에 다음 순서로 출력한다.
 
-- `中文：`一段 450—700 个中文字符的连续自然语言提示词，不写成关键词列表。
-- `English:` 与中文语义一致、可直接用于 AI 生图工具的英文提示词。
+- `한국어:` 450~700자의 연속된 자연어 문단으로 작성한다. 키워드 목록으로 쓰지 않는다.
+- `English:` 한국어와 의미가 같으며 AI 이미지 생성 도구에 바로 사용할 수 있는 영어 프롬프트를 작성한다.
 
-中文正向 Prompt 必须包含：
+한국어 생성 프롬프트에는 다음 내용을 포함한다.
 
 - 主体及主体专项特征
 - 最关键的 3—5 个视觉锚点
