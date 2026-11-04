@@ -25,30 +25,30 @@ $image-prompt-reverse 이 이미지의 생성용 프롬프트를 작성해줘.
 | 역할 | 위치 |
 | --- | --- |
 | 포크 수정·상류 병합 | `~/Projects/image-prompt-reverse`, `ko` 브랜치 |
-| Omarchy 설치 정본 | `~/Projects/omarchy-setup/files/agents/skills/image-prompt-reverse/` |
-| 한국어 패치 | `omarchy-setup/files/agents/patches/image-prompt-reverse-ko.patch` |
-| 설치본의 상류 기준 | `omarchy-setup/files/agents/image-prompt-reverse.json` |
-| 갱신 도구 | `omarchy-setup/scripts/image-prompt-reverse.py` |
+| 설치 정본(스킬 사본) | `~/Projects/agent-skills/skills/image-prompt-reverse/` |
+| 한국어 패치 | `git diff upstream/main...ko -- . ':!tools'` |
+| 설치본의 상류 기준 | `git merge-base ko upstream/main`, agent-skills 커밋 메시지 |
+| 갱신 도구 | `tools/sync.py` |
 
-`bash setup.sh skills`가 정본을 `~/.agents/skills`, `~/.claude/skills`, `~/.codex/skills`, `~/.pi/agent/skills`, `~/.hermes/skills`에 스킬 단위로 연결한다. 다른 PC에서는 `omarchy-setup`의 설치 정본과 같은 명령을 사용한다.
+omarchy-setup 의 `bash setup.sh skills` 가 agent-skills 의 스킬마다 `~/.agents/skills`·`~/.claude/skills`·`~/.codex/skills`·`~/.pi/agent/skills` 에 링크를 건다. 다른 PC 는 agent-skills 만 있으면 된다(이 포크는 없어도 된다).
 
 ## 상류 업데이트와 내 수정
 
 Git remote는 `origin` = [parapuda/image-prompt-reverse](https://github.com/parapuda/image-prompt-reverse), `upstream` = 원저장소다. `ko`에서 내 수정과 상류 변경을 관리하고, 푸시 기본 대상은 `origin`이다.
 
-아래 명령은 `~/Projects/omarchy-setup`에서 실행한다.
+이 저장소에서 실행한다.
 
 ```bash
-python3 scripts/image-prompt-reverse.py check
-python3 scripts/image-prompt-reverse.py update
-python3 scripts/image-prompt-reverse.py install
+python3 tools/sync.py check
+python3 tools/sync.py update
+python3 tools/sync.py install
 ```
 
 - `check`: 상류를 fetch하고 아직 반영하지 않은 커밋과 로컬 변경을 보여준다.
-- `update`: 작업 트리가 깨끗하면 상류를 병합하고, 설치 정본·패치·기준 기록·Omarchy 링크를 갱신한다. 병합은 커밋 전에 멈추므로 `ko`의 diff를 검토한 뒤 직접 커밋한다. 충돌이나 미커밋 변경이 있으면 설치본을 유지한다.
-- `install`: `ko`에서 직접 수정하거나 병합 충돌을 해결한 내용을 설치 정본에 반영한다. 새 파일은 먼저 Git에 등록한다.
+- `update`: 작업 트리가 깨끗하면 상류를 병합하고 설치 정본을 갱신한다. 병합은 커밋 전에 멈추므로 `ko`의 diff를 검토한 뒤 직접 커밋한다. 충돌이나 미커밋 변경이 있으면 설치본을 유지한다.
+- `install`: `ko`에서 직접 수정하거나 병합 충돌을 해결한 내용을 설치 정본에 반영한다. Git 이 추적하는 파일만, `tools/` 는 빼고 들어간다(새 파일은 먼저 Git에 등록).
 
-상류 갱신은 위 명령으로 직접 실행한다. 갱신 도구는 커밋·푸시를 실행하지 않는다. `ko`의 수정과 `omarchy-setup`의 설치 정본 변경을 각각 검토해 저장한다.
+갱신 도구는 커밋·푸시를 실행하지 않는다. `ko` 의 수정과 agent-skills 의 설치본 변경을 각각 검토해 저장한다(agent-skills 커밋 메시지에 상류 커밋을 적는다).
 
 ## 스킬 파일
 
