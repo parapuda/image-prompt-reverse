@@ -90,11 +90,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("action", choices=("check", "update", "install"))
     action = parser.parse_args().action
+    if action != "install":
+        git("fetch", "upstream")  # 새 clone 엔 upstream/main 이 아직 없다 — 확인보다 먼저
     require_branch()
     if action == "install":
         install()
         return
-    git("fetch", "upstream")
     newer = git("log", "--oneline", f"HEAD..{UPSTREAM}")
     print(newer or "미반영 상류 커밋 없음")
     if action == "check":
