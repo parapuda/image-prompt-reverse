@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Keep the Korean fork current and install it as the agent-skills copy.
+"""Keep the Korean fork current and install it as the agent-home copy.
 
     python3 tools/sync.py check     fetch upstream, list unmerged commits and local changes
     python3 tools/sync.py update    merge upstream (stops before committing), then install
-    python3 tools/sync.py install   copy the tracked files of `ko` into agent-skills
+    python3 tools/sync.py install   copy the tracked files of `ko` into agent-home
 
 No commits or pushes. Upstream merges stop before committing; conflicts and
 uncommitted changes stop updates before the installed copy is replaced.
@@ -22,7 +22,7 @@ NAME = "image-prompt-reverse"
 BRANCH = "ko"
 UPSTREAM = "upstream/main"
 SOURCE = Path(__file__).resolve().parents[1]
-SKILLS = Path.home() / "Projects" / "agent-skills" / "skills"
+SKILLS = Path.home() / "Work" / "agent-home" / "skills"
 
 
 def git(*args: str, raw: bool = False) -> str:
@@ -83,7 +83,7 @@ def install() -> None:
             if previous.exists():
                 previous.rename(target)
             raise
-    print(f"설치본 갱신: {target} (상류 {base[:7]}). agent-skills 에서 검토·커밋한다 — 커밋 메시지에 상류 {base[:7]} 를 적는다.")
+    print(f"설치본 갱신: {target} (상류 {base[:7]}). agent-home 에서 검토·커밋한다 — 커밋 메시지에 상류 {base[:7]} 를 적는다.")
 
 
 def main() -> None:

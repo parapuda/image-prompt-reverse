@@ -24,13 +24,13 @@ $image-prompt-reverse 이 이미지의 생성용 프롬프트를 작성해줘.
 
 | 역할 | 위치 |
 | --- | --- |
-| 포크 수정·상류 병합 | `~/Projects/image-prompt-reverse`, `ko` 브랜치 |
-| 설치 정본(스킬 사본) | `~/Projects/agent-skills/skills/image-prompt-reverse/` |
+| 포크 수정·상류 병합 | `~/Work/image-prompt-reverse`, `ko` 브랜치 |
+| 설치 정본(스킬 사본) | `~/Work/agent-home/skills/image-prompt-reverse/` |
 | 한국어 패치 | `git diff upstream/main...ko -- . ':!tools'` |
-| 설치본의 상류 기준 | `git merge-base ko upstream/main`, agent-skills 커밋 메시지 |
+| 설치본의 상류 기준 | `git merge-base ko upstream/main`, agent-home 커밋 메시지 |
 | 갱신 도구 | `tools/sync.py` |
 
-omarchy-setup 의 `bash setup.sh skills` 가 agent-skills 의 스킬마다 `~/.agents/skills`·`~/.claude/skills`·`~/.codex/skills`·`~/.pi/agent/skills` 에 링크를 건다. 다른 PC 는 agent-skills 만 있으면 된다(이 포크는 없어도 된다).
+omarchy-setup 의 `bash setup.sh skills` 가 agent-home 의 스킬마다 `~/.agents/skills`·`~/.claude/skills`·`~/.codex/skills`·`~/.pi/agent/skills` 에 링크를 건다. 다른 PC 는 agent-home 만 있으면 된다(이 포크는 없어도 된다).
 
 ## 상류 업데이트와 내 수정
 
@@ -48,7 +48,7 @@ python3 tools/sync.py install
 - `update`: 작업 트리가 깨끗하면 상류를 병합하고 설치 정본을 갱신한다. 병합은 커밋 전에 멈추므로 `ko`의 diff를 검토한 뒤 직접 커밋한다. 충돌이나 미커밋 변경이 있으면 설치본을 유지한다.
 - `install`: `ko`에서 직접 수정하거나 병합 충돌을 해결한 내용을 설치 정본에 반영한다. Git 이 추적하는 파일만, `tools/` 는 빼고 들어간다(새 파일은 먼저 Git에 등록).
 
-갱신 도구는 커밋·푸시를 실행하지 않는다. `ko` 의 수정과 agent-skills 의 설치본 변경을 각각 검토해 저장한다(agent-skills 커밋 메시지에 상류 커밋을 적는다).
+갱신 도구는 커밋·푸시를 실행하지 않는다. `ko` 의 수정과 agent-home 의 설치본 변경을 각각 검토해 저장한다(agent-home 커밋 메시지에 상류 커밋을 적는다).
 
 ## 스킬 파일
 
